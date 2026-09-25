@@ -47,6 +47,12 @@ These replace Omarchy's defaults on the same chords. Notably SUPER+ALT+TAB was O
 - Setting `worlds` (default 3): how many letters are always shown; higher worlds appear while
   they have windows. `omarchy bar set agf.hyprwrlds worlds 5`
 
+## World-coloured window border
+
+The focused window's border takes the current world's colour (the same theme hues as the bar
+widget), updating on every workspace switch and after theme changes. Set `WORLD_BORDERS = false`
+at the top of `hyprwrlds.lua` to keep Omarchy's normal border.
+
 ## Install
 
 Requires Omarchy with the Quickshell-based `omarchy-shell` and Hyprland 0.56+ (Lua config).

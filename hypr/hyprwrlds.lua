@@ -28,6 +28,9 @@ local MAX_WORLDS = 9
 -- Worlds always included when cycling (keep in step with the bar widget's
 -- `worlds` setting in ~/.config/omarchy/shell.json, currently 5 = A-E).
 local MIN_WORLDS = 5
+-- Colour the focused-window border with the current world's hue (the same
+-- theme colours as the bar widget). false = leave Omarchy's border alone.
+local WORLD_BORDERS = true
 local LETTERS = "ABCDEFGHI"
 
 hyprwrlds = hyprwrlds or {}
@@ -233,3 +236,55 @@ o.bind("SUPER + TAB", "Next workspace in world", function() M.cycle(1) end)
 o.bind("SUPER + SHIFT + TAB", "Previous workspace in world", function() M.cycle(-1) end)
 o.bind("SUPER + mouse_down", "Scroll workspaces forward in world", function() M.cycle(1) end)
 o.bind("SUPER + mouse_up", "Scroll workspaces backward in world", function() M.cycle(-1) end)
+
+-- ---------------------------------------------------------------------------
+-- World-coloured active border. Hues come from the current Omarchy theme's
+-- colors.toml in the bar widget's order: A blue, B red, C cyan, D yellow,
+-- E magenta, F green, G orange, H brown, I foreground.
+local PALETTE_KEYS = {
+  { "blue", "color4" }, { "red", "color1" }, { "cyan", "color6" },
+  { "yellow", "color3" }, { "magenta", "color5" }, { "green", "color2" },
+  { "orange", "color11" }, { "brown", "color9" }, { "foreground", "color7" },
+}
+
+function M.theme_colors()
+  local path = (os.getenv("HOME") or "") .. "/.local/state/omarchy/current/theme/colors.toml"
+  local ok, f = pcall(io.open, path, "r")
+  if not ok or not f then return {} end
+  local out = {}
+  for line in f:lines() do
+    local k, v = line:match('^%s*([%w_%-]+)%s*=%s*["\']?(#%x%x%x%x%x%x)')
+    if k then out[k] = v end
+  end
+  f:close()
+  return out
+end
+
+function M.world_color(w)
+  local colors = M.theme_colors()
+  local keys = PALETTE_KEYS[((w - 1) % #PALETTE_KEYS) + 1]
+  for _, k in ipairs(keys) do
+    if colors[k] then return colors[k] end
+  end
+  return colors.accent
+end
+
+function M.apply_border()
+  if not WORLD_BORDERS then return end
+  local c = M.world_color(M.current_world())
+  if c and c ~= M.last_border then
+    M.last_border = c
+    hl.config({ general = { col = { active_border = c } } })
+  end
+end
+
+M.last_border = nil           -- re-apply after every config/theme reload
+if not M.border_subscribed then
+  M.border_subscribed = true
+  -- Look the function up at call time so config reloads can replace it.
+  pcall(hl.on, "workspace.active", function()
+    if hyprwrlds and hyprwrlds.apply_border then pcall(hyprwrlds.apply_border) end
+  end)
+end
+if type(hl.get_active_workspace) == "function" then pcall(M.apply_border) end
+
