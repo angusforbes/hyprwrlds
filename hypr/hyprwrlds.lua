@@ -13,11 +13,13 @@
 --   SUPER + 1..0                     workspace 1..10 of the current world
 --   SUPER + SHIFT + 1..0             move window there (follow)
 --   SUPER + SHIFT + ALT + 1..0       move window there silently
---   SUPER + CTRL + ALT + 1..9        switch to world A..I
+--   SUPER + CTRL + 1..9              switch to world A..I
 --   SUPER + CTRL + ALT + SHIFT + 1..9 move window to world A..I (follow)
 --   SUPER + ALT + TAB                next world  (+SHIFT: previous world)
 --   SUPER + TAB / SHIFT+TAB / scroll cycle occupied workspaces within the world
--- (SUPER + CTRL + 1..9 stays Omarchy's "Bar panel N"; SUPER + ALT + 1..5 stays
+--   SUPER + CTRL + ALT + 1..9        Omarchy's "Bar panel N" (moved here from
+--                                    SUPER + CTRL + 1..9, swapped 2026-09-25)
+-- (SUPER + ALT + 1..5 stays
 -- "Switch to group window N".)
 --
 -- The bar widget (~/.config/omarchy/plugins/agf.hyprwrlds) calls into this
@@ -215,8 +217,12 @@ end
 
 for w = 1, MAX_WORLDS do
   local key = "code:" .. tostring(w + 9)
-  o.bind("SUPER + CTRL + ALT + " .. key, "Switch to world " .. M.letter(w) .. " (hyprwrlds)",
+  -- Worlds take SUPER + CTRL + N; Omarchy's bar panels move to SUPER + CTRL + ALT + N.
+  hl.unbind("SUPER + CTRL + " .. key)
+  o.bind("SUPER + CTRL + " .. key, "Switch to world " .. M.letter(w) .. " (hyprwrlds)",
     function() M.world(w) end)
+  o.bind("SUPER + CTRL + ALT + " .. key, "Bar panel " .. w,
+    "omarchy-shell -q shell togglePanelAt right " .. w)
   o.bind("SUPER + CTRL + ALT + SHIFT + " .. key, "Move window to world " .. M.letter(w),
     function() M.move_to_world(w, true) end)
 end

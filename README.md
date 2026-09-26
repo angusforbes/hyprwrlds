@@ -27,11 +27,13 @@ Vimarchy-style overview of worlds and workspaces with letter hints, previews and
 | SUPER+TAB / SUPER+SHIFT+TAB | Next / previous occupied workspace in the current world |
 | SUPER+scroll | Cycle occupied workspaces in the current world |
 | SUPER+ALT+TAB / SUPER+ALT+SHIFT+TAB | Next / previous world |
-| SUPER+CTRL+ALT+1..9 | Switch to world A..I (lands on that world's last-used workspace) |
+| SUPER+CTRL+1..9 | Switch to world A..I (lands on that world's last-used workspace) |
 | SUPER+CTRL+ALT+SHIFT+1..9 | Move window to world A..I (follow) |
+| SUPER+CTRL+ALT+1..9 | Omarchy's "Bar panel N" (moved here from SUPER+CTRL+1..9) |
 
-These replace Omarchy's defaults on the same chords. Notably SUPER+ALT+TAB was Omarchy's
-"next window in group"; group windows stay reachable with SUPER+ALT+scroll and SUPER+ALT+1..5.
+These replace Omarchy's defaults on the same chords. Notably SUPER+CTRL+1..9 was Omarchy's
+"Bar panel N", which now lives on SUPER+CTRL+ALT+1..9; SUPER+ALT+TAB was Omarchy's "next
+window in group", and group windows stay reachable with SUPER+ALT+scroll and SUPER+ALT+1..5.
 
 ## Bar widget
 
