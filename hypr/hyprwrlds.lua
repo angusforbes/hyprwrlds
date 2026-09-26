@@ -14,7 +14,7 @@
 --   SUPER + SHIFT + 1..0             move window there (follow)
 --   SUPER + SHIFT + ALT + 1..0       move window there silently
 --   SUPER + CTRL + 1..9              switch to world A..I
---   SUPER + CTRL + ALT + SHIFT + 1..9 move window to world A..I (follow)
+--   SUPER + CTRL + SHIFT + 1..9      move window to world A..I (follow)
 --   SUPER + ALT + TAB                next world  (+SHIFT: previous world)
 --   SUPER + TAB / SHIFT+TAB / scroll cycle occupied workspaces within the world
 --   SUPER + CTRL + ALT + 1..9        Omarchy's "Bar panel N" (moved here from
@@ -223,7 +223,7 @@ for w = 1, MAX_WORLDS do
     function() M.world(w) end)
   o.bind("SUPER + CTRL + ALT + " .. key, "Bar panel " .. w,
     "omarchy-shell -q shell togglePanelAt right " .. w)
-  o.bind("SUPER + CTRL + ALT + SHIFT + " .. key, "Move window to world " .. M.letter(w),
+  o.bind("SUPER + CTRL + SHIFT + " .. key, "Move window to world " .. M.letter(w),
     function() M.move_to_world(w, true) end)
 end
 

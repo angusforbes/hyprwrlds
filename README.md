@@ -28,7 +28,7 @@ Vimarchy-style overview of worlds and workspaces with letter hints, previews and
 | SUPER+scroll | Cycle occupied workspaces in the current world |
 | SUPER+ALT+TAB / SUPER+ALT+SHIFT+TAB | Next / previous world |
 | SUPER+CTRL+1..9 | Switch to world A..I (lands on that world's last-used workspace) |
-| SUPER+CTRL+ALT+SHIFT+1..9 | Move window to world A..I (follow) |
+| SUPER+CTRL+SHIFT+1..9 | Move window to world A..I (follow) |
 | SUPER+CTRL+ALT+1..9 | Omarchy's "Bar panel N" (moved here from SUPER+CTRL+1..9) |
 
 These replace Omarchy's defaults on the same chords. Notably SUPER+CTRL+1..9 was Omarchy's
